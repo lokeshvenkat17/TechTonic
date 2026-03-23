@@ -4,3 +4,13 @@ GET {{TechTonic.API_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+POST {{TechTonic.API_HostAddress}}/api/categories
+Content-Type: application/json
+
+{
+  "name": "Angular",
+  "urlHandle": "angular-blogs"
+}
+
+###
