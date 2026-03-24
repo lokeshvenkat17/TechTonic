@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using TechTonic.API.Data;
 using TechTonic.API.Models.Domain;
 using TechTonic.API.Models.DTO;
+using TechTonic.API.Repositories.Interface;
 
 namespace TechTonic.API.Controllers
 {
@@ -12,11 +13,10 @@ namespace TechTonic.API.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly AppDbContext dbContext;
-
-        public CategoriesController(AppDbContext dbContext)
+        private readonly ICategoryRepository categoryRepository;
+        public CategoriesController(ICategoryRepository categoryRepository)
         {
-            this.dbContext = dbContext;
+            this.categoryRepository = categoryRepository;
         }
         [HttpPost]
         public async Task<IActionResult> CreateCategory(CreateCategoryRequestDto request)
@@ -28,8 +28,7 @@ namespace TechTonic.API.Controllers
                 UrlHandle = request.UrlHandle
             };
 
-            await dbContext.Categories.AddAsync(category);
-            await dbContext.SaveChangesAsync();
+            await categoryRepository.CreateAsync(category);
 
             //Map Domain Models to DTO
             var response = new CategoryDto
